@@ -34,8 +34,8 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Details" asp-controller="ToDoLists" asp-route-id="@Model.ToDoListID">Back to @Model.ToDoList?.Name</a>
     </form>
 </div>
 </body>

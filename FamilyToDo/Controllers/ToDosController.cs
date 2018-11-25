@@ -28,7 +28,7 @@ namespace FamilyToDo.Controllers
                 return NotFound();
             }
 
-            var toDoModel = await _context.ToDoModel
+            var toDoModel = await _context.ToDoModel.Include(x => x.ToDoList)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (toDoModel == null)
             {
@@ -46,8 +46,8 @@ namespace FamilyToDo.Controllers
             {
                 return View();
             }
-
-            ToDoModel toDoModel = new ToDoModel { ToDoListID = (Guid)id };
+            var todoList = await _context.ToDoList.FirstOrDefaultAsync(x => x.ID == id);
+            ToDoModel toDoModel = new ToDoModel { ToDoListID = (Guid)id, ToDoList = todoList };
             return View(toDoModel);
         }
 
@@ -96,7 +96,7 @@ namespace FamilyToDo.Controllers
                 return NotFound();
             }
 
-            var toDoModel = await _context.ToDoModel.FindAsync(id);
+            var toDoModel = await _context.ToDoModel.Include(x => x.ToDoList).FirstOrDefaultAsync(x => x.ID == id);
             if (toDoModel == null)
             {
                 return NotFound();
@@ -148,7 +148,7 @@ namespace FamilyToDo.Controllers
                 return NotFound();
             }
 
-            var toDoModel = await _context.ToDoModel
+            var toDoModel = await _context.ToDoModel.Include(x => x.ToDoList)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (toDoModel == null)
             {

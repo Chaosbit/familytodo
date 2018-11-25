@@ -41,7 +41,7 @@
                 <span asp-validation-for="ToDoList" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary"/>
             </div>
         </form>
     </div>
@@ -49,7 +49,7 @@
 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-controller="ToDoLists" asp-route-id="@Model.ToDoListID">Back to @Model.ToDoList.Name</a>
 </div>
 
 @section Scripts {

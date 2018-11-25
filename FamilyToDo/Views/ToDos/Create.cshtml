@@ -47,7 +47,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-controller="ToDoLists" asp-route-id="@Model.ToDoListID">Back to @Model.ToDoList.Name</a>
 </div>
 
 @section Scripts {
