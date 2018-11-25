@@ -16,7 +16,13 @@ namespace FamilyToDo.Models
 
         public ToDoList ToDoList { get; set; }
 
+        public DateTime Created { get; set; }
+
         public DateTime? Completed { get; set; }
+
+        public Guid RepeatingTodoID { get; set; }
+
+        public RepeatingTodo RepeatingTodo { get; set; } 
     }
 
     public enum ToDoStatus

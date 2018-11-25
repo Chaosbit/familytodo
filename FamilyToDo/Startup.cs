@@ -40,6 +40,9 @@ namespace FamilyToDo
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddHostedService<Services.ConsumeScopedServiceHostedService>();
+            services.AddScoped<Services.IScopedProcessingService, Services.ScopedProcessingService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
