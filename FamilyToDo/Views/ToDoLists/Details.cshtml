@@ -32,6 +32,10 @@
             </thead>
             @foreach (var todo in Model.ToDos)
             {
+                @if(todo.Status == ToDoStatus.Closed)
+                {
+                    continue;
+                }
                 <tr>
                     <td>@todo.Title</td>
                     <td>@todo.Status</td>
