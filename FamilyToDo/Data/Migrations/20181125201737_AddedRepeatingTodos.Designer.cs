@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FamilyToDo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181125194730_AddedRepeatingTimers")]
-    partial class AddedRepeatingTimers
+    [Migration("20181125201737_AddedRepeatingTodos")]
+    partial class AddedRepeatingTodos
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,7 +64,7 @@ namespace FamilyToDo.Data.Migrations
 
                     b.Property<DateTime>("Created");
 
-                    b.Property<Guid>("RepeatingTodoID");
+                    b.Property<Guid?>("RepeatingTodoID");
 
                     b.Property<int>("Status");
 
@@ -257,8 +257,7 @@ namespace FamilyToDo.Data.Migrations
                 {
                     b.HasOne("FamilyToDo.Models.RepeatingTodo", "RepeatingTodo")
                         .WithMany("ToDoModel")
-                        .HasForeignKey("RepeatingTodoID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RepeatingTodoID");
 
                     b.HasOne("FamilyToDo.Models.ToDoList", "ToDoList")
                         .WithMany("ToDos")

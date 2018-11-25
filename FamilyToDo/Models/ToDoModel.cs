@@ -20,7 +20,7 @@ namespace FamilyToDo.Models
 
         public DateTime? Completed { get; set; }
 
-        public Guid RepeatingTodoID { get; set; }
+        public Guid? RepeatingTodoID { get; set; }
 
         public RepeatingTodo RepeatingTodo { get; set; } 
     }

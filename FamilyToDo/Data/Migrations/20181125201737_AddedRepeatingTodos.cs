@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FamilyToDo.Data.Migrations
 {
-    public partial class AddedRepeatingTimers : Migration
+    public partial class AddedRepeatingTodos : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,8 +16,7 @@ namespace FamilyToDo.Data.Migrations
             migrationBuilder.AddColumn<Guid>(
                 name: "RepeatingTodoID",
                 table: "ToDoModel",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+                nullable: true);
 
             migrationBuilder.CreateTable(
                 name: "RepeatingTodos",
@@ -44,7 +43,7 @@ namespace FamilyToDo.Data.Migrations
                 column: "RepeatingTodoID",
                 principalTable: "RepeatingTodos",
                 principalColumn: "ID",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

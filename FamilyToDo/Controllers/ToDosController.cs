@@ -38,6 +38,25 @@ namespace FamilyToDo.Controllers
             return View(toDoModel);
         }
 
+        public async Task<IActionResult> Repeat(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var toDoModel = await _context.ToDoModel.Include(x => x.ToDoList)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (toDoModel == null)
+            {
+                return NotFound();
+            }
+
+            var repeatingTodo = new RepeatingTodo { MasterTodoID = (Guid)id};
+
+            return View(repeatingTodo);
+        }
+
         // GET: ToDos/Create
         public async Task<IActionResult> Create(Guid? id)
         {
