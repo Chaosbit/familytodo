@@ -20,12 +20,6 @@ namespace FamilyToDo.Controllers
             _context = context;
         }
 
-        // GET: ToDos
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.ToDoModel.ToListAsync());
-        }
-
         // GET: ToDos/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -69,7 +63,7 @@ namespace FamilyToDo.Controllers
                 toDoModel.ID = Guid.NewGuid();
                 _context.Add(toDoModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), nameof(ToDoListsController), new { id = toDoModel.ToDoListID });
             }
             ViewData["ToDoLists"] = await _context.ToDoList.ToListAsync();
             return View(toDoModel);
@@ -122,7 +116,7 @@ namespace FamilyToDo.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), nameof(ToDoListsController), new { id = toDoModel.ToDoListID });
             }
             return View(toDoModel);
         }
@@ -153,7 +147,7 @@ namespace FamilyToDo.Controllers
             var toDoModel = await _context.ToDoModel.FindAsync(id);
             _context.ToDoModel.Remove(toDoModel);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details), nameof(ToDoListsController), new { id = toDoModel.ToDoListID });
         }
 
         private bool ToDoModelExists(Guid id)
