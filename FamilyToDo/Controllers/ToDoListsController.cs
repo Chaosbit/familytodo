@@ -9,15 +9,17 @@ using FamilyToDo.Data;
 using FamilyToDo.Models;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FamilyToDo.Controllers
 {
+    [Authorize]
     public class ToDoListsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> userManager;
 
-        [DisplayName("ToDoList")]
+        
         public ToDoListsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
@@ -27,7 +29,8 @@ namespace FamilyToDo.Controllers
         // GET: ToDoLists
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ToDoList.OrderBy(x => x.Order).ToListAsync());
+            var user = await userManager.GetUserAsync(User);
+            return View(await _context.ToDoList.Where(x => x.UserID == user.Id).OrderBy(x => x.Order).ToListAsync());
         }
 
         // GET: ToDoLists/Details/5
@@ -38,8 +41,9 @@ namespace FamilyToDo.Controllers
                 return NotFound();
             }
 
+            var user = await userManager.GetUserAsync(User);
             var toDoList = await _context.ToDoList.Include(x => x.ToDos)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ID == id && m.UserID == user.Id);
             if (toDoList == null)
             {
                 return NotFound();
@@ -86,6 +90,13 @@ namespace FamilyToDo.Controllers
             {
                 return NotFound();
             }
+
+            var user = await userManager.GetUserAsync(User);
+            if (toDoList.UserID != user.Id)
+            {
+                return Unauthorized();
+            }
+
             return View(toDoList);
         }
 
@@ -101,11 +112,20 @@ namespace FamilyToDo.Controllers
                 return NotFound();
             }
 
+            var oldTodoList = await _context.ToDoList.FirstOrDefaultAsync(x => x.ID == id);
+
+            var user = await userManager.GetUserAsync(User);
+            if (oldTodoList.UserID != user.Id)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(toDoList);
+                    oldTodoList.Name = toDoList.Name;
+                    oldTodoList.Order = toDoList.Order;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -131,13 +151,20 @@ namespace FamilyToDo.Controllers
             {
                 return NotFound();
             }
-
             var toDoList = await _context.ToDoList
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (toDoList == null)
             {
                 return NotFound();
             }
+
+
+            var user = await userManager.GetUserAsync(User);
+            if (toDoList.UserID != user.Id)
+            {
+                return Unauthorized();
+            }
+
 
             return View(toDoList);
         }
@@ -148,6 +175,15 @@ namespace FamilyToDo.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var toDoList = await _context.ToDoList.FindAsync(id);
+
+
+
+            var user = await userManager.GetUserAsync(User);
+            if (toDoList?.UserID != user.Id)
+            {
+                return Unauthorized();
+            }
+
             _context.ToDoList.Remove(toDoList);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
