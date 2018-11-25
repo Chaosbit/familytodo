@@ -1,0 +1,41 @@
+﻿@model IEnumerable<FamilyToDo.Models.ToDoList>
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th><a asp-action="Create" class="btn btn-primary">New</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.ID">@Html.DisplayFor(modelItem => item.Name)</a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
