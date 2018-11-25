@@ -83,6 +83,7 @@ namespace FamilyToDo.Controllers
             }
 
             toDoModel.Status = ToDoStatus.Closed;
+            toDoModel.Completed = DateTime.Now;
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details), "ToDoLists", new { id = toDoModel.ToDoListID });

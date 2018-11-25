@@ -15,6 +15,8 @@ namespace FamilyToDo.Models
         public Guid ToDoListID { get; set; }
 
         public ToDoList ToDoList { get; set; }
+
+        public DateTime? Completed { get; set; }
     }
 
     public enum ToDoStatus
