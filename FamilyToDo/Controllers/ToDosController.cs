@@ -45,10 +45,16 @@ namespace FamilyToDo.Controllers
         }
 
         // GET: ToDos/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(Guid? id)
         {
             ViewData["ToDoLists"] = await _context.ToDoList.ToListAsync();
-            return View();
+            if(id == null)
+            {
+                return View();
+            }
+
+            ToDoModel toDoModel = new ToDoModel { ToDoListID = (Guid)id };
+            return View(toDoModel);
         }
 
         // POST: ToDos/Create

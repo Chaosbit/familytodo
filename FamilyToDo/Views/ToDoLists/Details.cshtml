@@ -22,12 +22,27 @@
     {
     <div>
         <hr />
-        <ul>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.ToDos.First().Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.ToDos.First().Status)</th>
+                    <th><a asp-controller="ToDos" asp-action="Create" asp-route-id="@Model.ID" class="btn btn-primary">New</a></th>
+                </tr>
+            </thead>
             @foreach (var todo in Model.ToDos)
             {
-                <li>@todo.Title</li>
+                <tr>
+                    <td>@todo.Title</td>
+                    <td>@todo.Status</td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="ToDos" asp-route-id="@todo.ID">Edit</a> |
+                        <a asp-action="Details" asp-controller="ToDos" asp-route-id="@todo.ID">Details</a> |
+                        <a asp-action="Delete" asp-controller="ToDos" asp-route-id="@todo.ID">Delete</a>
+                    </td>
+                </tr>
             }
-        </ul>
+        </table>
     </div>
     }
     </body>
