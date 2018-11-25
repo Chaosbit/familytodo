@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using FamilyToDo.Models;
 
 namespace FamilyToDo.Data
 {
@@ -12,5 +13,7 @@ namespace FamilyToDo.Data
             : base(options)
         {
         }
+        public DbSet<FamilyToDo.Models.ToDoModel> ToDoModel { get; set; }
+        public DbSet<FamilyToDo.Models.ToDoList> ToDoList { get; set; }
     }
 }
