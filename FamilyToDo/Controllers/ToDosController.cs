@@ -14,12 +14,10 @@ namespace FamilyToDo.Controllers
     public class ToDosController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> userManager;
 
-        public ToDosController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public ToDosController(ApplicationDbContext context)
         {
             _context = context;
-            this.userManager = userManager;
         }
 
         // GET: ToDos
@@ -63,8 +61,6 @@ namespace FamilyToDo.Controllers
             if (ModelState.IsValid)
             {
                 toDoModel.ID = Guid.NewGuid();
-                var user = await userManager.GetUserAsync(User);
-                toDoModel.User = user;
                 _context.Add(toDoModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

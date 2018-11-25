@@ -14,7 +14,10 @@ namespace FamilyToDo.Models
         public uint Order { get; set; }
 
         public ICollection<ToDoModel> ToDos { get; set; }
-        
+
+        public string UserID { get; set; }
+        public Microsoft.AspNetCore.Identity.IdentityUser User { get; set; }
+
 
     }
 }

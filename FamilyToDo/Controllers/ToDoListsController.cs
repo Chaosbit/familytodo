@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FamilyToDo.Data;
 using FamilyToDo.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace FamilyToDo.Controllers
 {
     public class ToDoListsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public ToDoListsController(ApplicationDbContext context)
+        public ToDoListsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
         }
 
         // GET: ToDoLists
@@ -59,6 +62,8 @@ namespace FamilyToDo.Controllers
             if (ModelState.IsValid)
             {
                 toDoList.ID = Guid.NewGuid();
+                var user = await userManager.GetUserAsync(User);
+                toDoList.User = user;
                 _context.Add(toDoList);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

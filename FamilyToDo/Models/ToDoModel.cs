@@ -10,8 +10,6 @@ namespace FamilyToDo.Models
 
         public string Title { get; set; }
 
-        public Microsoft.AspNetCore.Identity.IdentityUser User { get; set; }
-
         public ToDoStatus Status { get; set; } = ToDoStatus.Open;
 
         public Guid ToDoListID { get; set; }
