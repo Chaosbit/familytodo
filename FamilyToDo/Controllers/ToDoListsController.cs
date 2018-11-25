@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FamilyToDo.Data;
 using FamilyToDo.Models;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 
 namespace FamilyToDo.Controllers
 {
@@ -16,6 +17,7 @@ namespace FamilyToDo.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> userManager;
 
+        [DisplayName("ToDoList")]
         public ToDoListsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;

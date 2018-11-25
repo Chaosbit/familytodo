@@ -19,7 +19,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
-                <th><a asp-action="Create" class="btn btn-primary">New</a></th>
+                <th><a asp-action="Create" title="New"><span class="glyphicon glyphicon-plus" aria-hidden="true"></a></th>
             </tr>
         </thead>
         <tbody>
@@ -27,11 +27,11 @@
             {
                 <tr>
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.ID">@Html.DisplayFor(modelItem => item.Name)</a>
+                        <a asp-action="Details" asp-route-id="@item.ID" title="Show todo items ...">@Html.DisplayFor(modelItem => item.Name)</a>
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.ID" title="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></a>
+                        <a asp-action="Delete" asp-route-id="@item.ID" title="delete"><span class="glyphicon glyphicon-remove aria-hidden="true"></a>
                     </td>
                 </tr>
             }

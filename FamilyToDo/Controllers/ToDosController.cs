@@ -20,12 +20,6 @@ namespace FamilyToDo.Controllers
             _context = context;
         }
 
-        // GET: ToDos
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.ToDoModel.ToListAsync());
-        }
-
         // GET: ToDos/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -69,10 +63,29 @@ namespace FamilyToDo.Controllers
                 toDoModel.ID = Guid.NewGuid();
                 _context.Add(toDoModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), "ToDoLists", new { id = toDoModel.ToDoListID });
             }
             ViewData["ToDoLists"] = await _context.ToDoList.ToListAsync();
             return View(toDoModel);
+        }
+
+        public async Task<IActionResult> MarkComplete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var toDoModel = await _context.ToDoModel.FindAsync(id);
+            if (toDoModel == null)
+            {
+                return NotFound();
+            }
+
+            toDoModel.Status = ToDoStatus.Closed;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), "ToDoLists", new { id = toDoModel.ToDoListID });
         }
 
         // GET: ToDos/Edit/5
@@ -122,7 +135,7 @@ namespace FamilyToDo.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), "ToDoLists", new { id = toDoModel.ToDoListID });
             }
             return View(toDoModel);
         }
@@ -153,7 +166,7 @@ namespace FamilyToDo.Controllers
             var toDoModel = await _context.ToDoModel.FindAsync(id);
             _context.ToDoModel.Remove(toDoModel);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details), "ToDoLists", new { id = toDoModel.ToDoListID });
         }
 
         private bool ToDoModelExists(Guid id)
